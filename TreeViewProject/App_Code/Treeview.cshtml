@@ -1,0 +1,28 @@
+﻿@helper GetTreeView(List<TreeViewProject.Models.tbl_notes> note, int? parentId)
+{
+    foreach (var i in note.Where(a => a.Note_ParentId.Equals(parentId)))
+    {
+        <li>
+            @{var subnote = note.Where(a => a.Note_ParentId.Equals(i.Note_Id)).Count();}
+            @if (subnote > 0)
+            {
+                <span class="collapse collapsible"> <img src="~/Images/sort-down-solid.png" style="width:10px;vertical-align:unset !important" /></span>
+            }
+            else
+            {
+                <span style="width:15px; display:inline-block"> &nbsp;</span>
+            }
+            <span style="font-size:20px !important">
+                @i.Note_Name
+            </span>
+            <span class="delete" onclick="DeleteFunc(@i.Note_Id)"> <img src="~/Images/delete.png" style="width:20px;vertical-align:unset !important" /></span>
+            @if (subnote > 0)
+            {
+                <ul>
+                    @Treeview.GetTreeView(note, i.Note_Id)
+                </ul>
+
+            }
+        </li>
+    }
+}

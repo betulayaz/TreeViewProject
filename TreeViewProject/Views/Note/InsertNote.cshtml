@@ -1,0 +1,54 @@
+﻿
+@model TreeViewProject.Models.tbl_notes
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <style>
+        .btn.dropdown-toggle.btn-default {
+            display: none;
+        }
+    </style>
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Not Ekleme Sayfası
+                </h2>
+            </div>
+            <br>
+            <div class="body">
+                @using (Html.BeginForm("InsertNote", "Note", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <div class="form-line">
+                            @Html.DropDownListFor(model => model.Note_ParentId, new SelectList(ViewBag.data, "Note_Id", "Note_Name"), new { @id = "dropdown", @class = "form-control" })
+                            <label style="font-weight:50 !important;">* Yukarıdaki açılır listeden yeni notunuzun hangi notun altına ekleneceğini seçebilirsiniz.Seçim yapmadığınız takdirde ekleyeceğiniz not, parent not olarak görünecektir.</label>
+                        </div>
+                    </div>
+                    <label for="name">Not Adı</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            @Html.EditorFor(model => model.Note_Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @required = "required" } })
+                            @Html.HiddenFor(model => model.Note_IsActive,
+                new { Value = 1 })
+                        </div>
+                    </div>
+
+                    <br>
+                    <input type="submit" class="btn btn-primary m-t-15 waves-effect" value="Notu Kaydet">
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dropdown").prepend('<option selected="selected" value="0">--Not Seçebilirsiniz--</option>');
+        });
+
+    </script>
+}
